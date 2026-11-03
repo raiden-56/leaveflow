@@ -227,7 +227,8 @@ const LEAVE_SEEDS: LeaveSeed[] = [
   // ---- pending approval ----
   { emp: 'EMP005', type: 'EL', start: 14, days: 5, status: 'PENDING', backup: 'EMP009', handover: 'PENDING_ACCEPTANCE', reason: 'Trip to Rishikesh with family' },
   { emp: 'EMP006', type: 'CL', start: 4, days: 2, status: 'PENDING', backup: 'EMP007', handover: 'ACCEPTED', reason: 'Brother\'s engagement ceremony' },
-  { emp: 'EMP009', type: 'EL', start: 10, days: 3, status: 'PENDING', backup: 'EMP005', handover: 'PENDING_ACCEPTANCE', reason: 'Attending a tech conference abroad (personal)' },
+  // After Priya (EMP005) is back from Rishikesh, so the two aren't each other's backup on overlapping leave.
+  { emp: 'EMP009', type: 'EL', start: 24, days: 3, status: 'PENDING', backup: 'EMP005', handover: 'PENDING_ACCEPTANCE', reason: 'Attending a tech conference abroad (personal)' },
   { emp: 'EMP014', type: 'AL', start: 12, days: 4, status: 'PENDING', backup: 'EMP012', handover: 'DECLINED', reason: 'Pongal at home in Madurai', declineReason: 'I am on leave myself during part of this period' },
   { emp: 'EMP017', type: 'EL', start: 8, days: 3, status: 'PENDING', backup: 'EMP019', handover: 'ACCEPTED', reason: 'Wedding anniversary trip' },
   { emp: 'EMP018', type: 'CL', start: 5, days: 1, status: 'PENDING', backup: 'EMP020', handover: 'PENDING_ACCEPTANCE', reason: 'Vehicle registration at RTO' },

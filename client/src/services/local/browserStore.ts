@@ -136,7 +136,9 @@ export class BrowserStore implements DataStore {
 
   private backup(snapshot: string, label = 'auto'): string {
     const createdAt = new Date().toISOString();
-    const fileName = `LeaveFlow-${createdAt.replace(/[-:T]/g, '').slice(0, 15)}-${label}.xlsx`;
+    // Same YYYYMMDD-HHmmss-SSS stamp as the server's backups (and no stray "." from the ISO milliseconds).
+    const d = createdAt.replace(/\D/g, '');
+    const fileName = `LeaveFlow-${d.slice(0, 8)}-${d.slice(8, 14)}-${d.slice(14, 17)}-${label}.xlsx`;
     const backups = [{ fileName, createdAt, data: snapshot }, ...readJson<StoredBackup[]>(BACKUP_KEY, [])].slice(0, MAX_BACKUPS);
     writeKey(BACKUP_KEY, JSON.stringify(backups));
     return fileName;

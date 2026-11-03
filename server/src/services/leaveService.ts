@@ -149,7 +149,8 @@ export class LeaveService {
       else errors.push(msg);
     }
     const holidaysInRange = days.filter((d) => d.reason === 'HOLIDAY');
-    if (holidaysInRange.length) warnings.push(`${holidaysInRange.length} public holiday(s) in this range are not counted`);
+    // Public and company holidays both end up here, so don't call them all "public".
+    if (holidaysInRange.length) warnings.push(`${holidaysInRange.length} holiday(s) in this range are not counted`);
 
     return { totalDays, days, balance, errors: [...new Set(errors)], warnings, leaveType };
   }

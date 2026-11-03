@@ -7,6 +7,7 @@ import { toggleSidebar, toggleTheme } from '@/app/store/uiSlice';
 import { useMyBalancesQuery } from '@/app/store/api';
 import { CardsSkeleton, EmployeeAvatar, ErrorState, PageHeader, SectionCard } from '@/components/common';
 import { useAuth } from '@/hooks';
+import { isBrowserDemo } from '@/services/api/httpClient';
 import { fmtDate } from '@/utils/format';
 
 const WORK_MODE_LABEL: Record<(typeof WORK_MODES)[number], string> = { OFFICE: 'In office', REMOTE: 'Remote', HYBRID: 'Hybrid' };
@@ -137,8 +138,14 @@ export default function ProfileSettingsPage() {
             </Grid>
 
             <Alert severity="info" icon={<KeyRound size={18} />}>
-              This demo uses configurable demo authentication: every active employee signs in with the shared demo password set in
-              <code> server/.env </code>(DEMO_PASSWORD). Profile details are managed by HR in the Employees module.
+              {isBrowserDemo ? (
+                <>This browser demo uses demo authentication: every active employee signs in with the shared demo password shown on the login page. Profile details are managed by HR in the Employees module.</>
+              ) : (
+                <>
+                  This demo uses configurable demo authentication: every active employee signs in with the shared demo password set in
+                  <code> server/.env </code>(DEMO_PASSWORD). Profile details are managed by HR in the Employees module.
+                </>
+              )}
             </Alert>
           </Stack>
         </Grid>

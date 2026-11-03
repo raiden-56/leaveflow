@@ -242,6 +242,8 @@ export function TasksStep({ candidates }: { candidates: BackupCandidate[] | unde
   const { control, register, getValues, formState: { errors } } = useFormContext<ApplyFormValues>();
   const { fields, append, remove, insert } = useFieldArray({ control, name: 'handover.tasks' });
   const [backupId, startDate] = useWatch({ control, name: ['handover.backupEmployeeId', 'startDate'] });
+  // Watched (not getValues) so each task header updates as its title and priority are edited.
+  const tasks = useWatch({ control, name: 'handover.tasks' });
   const [expanded, setExpanded] = useState<string | null>(fields[0]?.id ?? null);
   const taskErrors = errors.handover?.tasks;
 
@@ -257,7 +259,7 @@ export function TasksStep({ candidates }: { candidates: BackupCandidate[] | unde
       </Typography>
       <AnimatePresence initial={false}>
         {fields.map((f, i) => {
-          const values = getValues(`handover.tasks.${i}`);
+          const values = tasks?.[i];
           const open = expanded === f.id || expanded === null && i === fields.length - 1;
           const err = Array.isArray(taskErrors) ? taskErrors[i] : undefined;
           return (

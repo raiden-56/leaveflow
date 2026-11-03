@@ -88,16 +88,16 @@ export function BarChart<T extends object>({
       <ResponsiveContainer width="100%" height="100%">
         <RBarChart data={data} layout={horizontal ? 'vertical' : 'horizontal'} margin={{ top: 8, right: 12, bottom: 0, left: 0 }} barCategoryGap="28%">
           <CartesianGrid stroke={ct.grid} vertical={Boolean(horizontal)} horizontal={!horizontal} />
+          {/* Axes must be direct children of the chart: Recharts 2 doesn't look inside Fragments. */}
           {horizontal ? (
-            <>
-              <XAxis type="number" tick={ct.tick} axisLine={false} tickLine={false} tickFormatter={valueFormatter} allowDecimals={false} />
-              <YAxis type="category" dataKey={xKey} tick={ct.tick} axisLine={false} tickLine={false} width={yWidth} tickFormatter={xFormatter} />
-            </>
+            <XAxis type="number" tick={ct.tick} axisLine={false} tickLine={false} tickFormatter={valueFormatter} allowDecimals={false} />
           ) : (
-            <>
-              <XAxis dataKey={xKey} tick={ct.tick} axisLine={{ stroke: ct.grid }} tickLine={false} tickFormatter={xFormatter} interval="preserveStartEnd" minTickGap={8} />
-              <YAxis tick={ct.tick} axisLine={false} tickLine={false} width={yWidth} tickFormatter={valueFormatter} allowDecimals={false} />
-            </>
+            <XAxis dataKey={xKey} tick={ct.tick} axisLine={{ stroke: ct.grid }} tickLine={false} tickFormatter={xFormatter} interval="preserveStartEnd" minTickGap={8} />
+          )}
+          {horizontal ? (
+            <YAxis type="category" dataKey={xKey} tick={ct.tick} axisLine={false} tickLine={false} width={yWidth} tickFormatter={xFormatter} />
+          ) : (
+            <YAxis tick={ct.tick} axisLine={false} tickLine={false} width={yWidth} tickFormatter={valueFormatter} allowDecimals={false} />
           )}
           <Tooltip cursor={{ fill: ct.cursor }} content={<ChartTooltip valueFormatter={valueFormatter} labelFormatter={xFormatter} />} />
           {series.map((s, i) => {

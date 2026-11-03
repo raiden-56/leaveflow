@@ -236,9 +236,14 @@ export function BalancesPanel() {
   const rows = tracked.filter(
     (b) => (!department || b.department === department) && (!leaveType || b.leaveType === leaveType) && (!employeeId || b.employeeId === employeeId),
   );
+  // Event-based leave (maternity, paternity, bereavement…) is allocated to everyone but only used by a few,
+  // so it stays out of the headline totals unless HR filters to that leave type.
   const totals = useMemo(
-    () => rows.reduce((s, b) => ({ total: s.total + b.total, used: s.used + b.used, pending: s.pending + b.pending, available: s.available + b.available }), { total: 0, used: 0, pending: 0, available: 0 }),
-    [rows],
+    () =>
+      rows
+        .filter((b) => leaveType || b.includeInTotals)
+        .reduce((s, b) => ({ total: s.total + b.total, used: s.used + b.used, pending: s.pending + b.pending, available: s.available + b.available }), { total: 0, used: 0, pending: 0, available: 0 }),
+    [rows, leaveType],
   );
   const round = (n: number) => Math.round(n * 10) / 10;
 
@@ -300,7 +305,7 @@ export function BalancesPanel() {
   return (
     <Stack spacing={2.5}>
       <Grid container spacing={2}>
-        <Grid size={{ xs: 6, md: 3 }}><StatCard index={0} label="Total entitlement" value={round(totals.total)} icon={<Wallet size={20} />} color={palette.indigo} caption={`${year} · filtered rows`} /></Grid>
+        <Grid size={{ xs: 6, md: 3 }}><StatCard index={0} label="Total entitlement" value={round(totals.total)} icon={<Wallet size={20} />} color={palette.indigo} caption={leaveType ? `${year} · filtered rows` : `${year} · excludes event-based leave`} /></Grid>
         <Grid size={{ xs: 6, md: 3 }}><StatCard index={1} label="Used" value={round(totals.used)} icon={<History size={20} />} color={palette.approved} progress={totals.total ? (totals.used / totals.total) * 100 : 0} /></Grid>
         <Grid size={{ xs: 6, md: 3 }}><StatCard index={2} label="Pending" value={round(totals.pending)} icon={<CalendarSync size={20} />} color={palette.pending} /></Grid>
         <Grid size={{ xs: 6, md: 3 }}><StatCard index={3} label="Available" value={round(totals.available)} icon={<Gift size={20} />} color={palette.teal} progress={totals.total ? (totals.available / totals.total) * 100 : 0} /></Grid>

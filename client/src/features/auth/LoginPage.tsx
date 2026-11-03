@@ -158,7 +158,11 @@ export default function LoginPage() {
                   ))}
                 </Stack>
                 <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 1.5 }}>
-                  {demo.passwordHint ? <>Demo password: <b>{demo.passwordHint}</b> (configured in server/.env). Any active employee in the workbook can sign in.</> : 'The demo password is configured in server/.env (DEMO_PASSWORD).'}
+                  {isBrowserDemo
+                    ? <>Demo password: <b>{demo.passwordHint}</b>. Any active employee in this browser’s demo workbook can sign in.</>
+                    : demo.passwordHint
+                      ? <>Demo password: <b>{demo.passwordHint}</b> (configured in server/.env). Any active employee in the workbook can sign in.</>
+                      : 'The demo password is configured in server/.env (DEMO_PASSWORD).'}
                 </Typography>
               </>
             )}

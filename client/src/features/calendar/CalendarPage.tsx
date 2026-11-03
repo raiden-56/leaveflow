@@ -105,7 +105,12 @@ export default function CalendarPage() {
         </Typography>
       );
     }
-    return undefined;
+    // Returning nothing here leaves the event blank, so always render its title.
+    return (
+      <Box component="span" title={arg.event.title} sx={{ display: 'block', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', px: 0.25 }}>
+        {arg.event.title}
+      </Box>
+    );
   };
 
   const legend = [
