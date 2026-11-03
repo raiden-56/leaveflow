@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+server/data/*.xlsx
+server/data/backups/
+server/uploads/*
+!server/uploads/.gitkeep
+~$*.xlsx
+.DS_Store

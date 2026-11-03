@@ -1,0 +1,26 @@
+{
+  "name": "leaveflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LeaveFlow – Employee Leave & Work Handover Management Portal",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "start": "npm run start -w server",
+    "build": "npm run build -w client",
+    "typecheck": "npm run typecheck -w shared && npm run typecheck -w server && npm run typecheck -w client",
+    "test": "npm run test -w shared && npm run test -w server",
+    "seed": "npm run seed -w server",
+    "sample:excel": "npm run sample:excel -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
